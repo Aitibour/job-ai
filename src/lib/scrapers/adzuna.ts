@@ -56,7 +56,6 @@ export async function scrapeAdzuna(): Promise<RawJob[]> {
       max_days_old: '1',
       results_per_page: '50',
       sort_by: 'date',
-      content_type: 'application/json',
     })
 
     try {
