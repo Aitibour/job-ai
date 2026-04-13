@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { renderToBuffer } from '@react-pdf/renderer'
 import { createElement } from 'react'
-import { CvDocument } from '@/../../pdf/CvDocument'
+import { CvDocument } from '@/lib/CvDocument'
 import { createServerClient } from '@/lib/supabase-server'
 
 export async function POST(req: NextRequest) {
