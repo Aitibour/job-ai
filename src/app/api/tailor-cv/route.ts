@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Anthropic from '@anthropic-ai/sdk'
+import OpenAI from 'openai'
 import { createServerClient } from '@/lib/supabase-server'
 import { buildTailorPrompt } from './prompt'
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
 export async function POST(req: NextRequest) {
   const supabase = createServerClient()
@@ -37,11 +37,11 @@ export async function POST(req: NextRequest) {
   const nextVersion = existing && existing.length > 0 ? existing[0].version + 1 : 1
   const isHospitality = job.industry === 'hospitality'
 
-  // 4. Call Claude
+  // 4. Call GPT-4o-mini
   let parsed: { cv_content: string; ats_score: number; keywords_matched: string[] }
   try {
-    const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-6',
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
       max_tokens: 4000,
       messages: [
         {
@@ -51,13 +51,13 @@ export async function POST(req: NextRequest) {
       ],
     })
 
-    const text = message.content[0].type === 'text' ? message.content[0].text : ''
+    const text = completion.choices[0]?.message?.content || ''
     const jsonMatch = text.match(/\{[\s\S]*\}/)
-    if (!jsonMatch) throw new Error('No JSON in Claude response')
+    if (!jsonMatch) throw new Error('No JSON in OpenAI response')
     parsed = JSON.parse(jsonMatch[0])
   } catch (err: any) {
     await supabase.from('applications').update({ status: 'new' }).eq('job_id', job_id)
-    return NextResponse.json({ error: `Claude error: ${err.message}` }, { status: 500 })
+    return NextResponse.json({ error: `OpenAI error: ${err.message}` }, { status: 500 })
   }
 
   // 5. Save cv_version
