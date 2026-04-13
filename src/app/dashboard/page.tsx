@@ -7,14 +7,19 @@ import { ApplicationStatus } from '@/lib/types'
 
 type Stage = ApplicationStatus | 'new'
 
-const TABS: { status: Stage; label: string; color: string }[] = [
-  { status: 'new',       label: 'New Jobs',    color: 'text-blue-400' },
-  { status: 'tailoring', label: 'Tailoring',   color: 'text-purple-400' },
-  { status: 'review',    label: 'Review',      color: 'text-yellow-400' },
-  { status: 'applied',   label: 'Applied',     color: 'text-green-400' },
-  { status: 'interview', label: 'Interview',   color: 'text-red-400' },
-  { status: 'rejected',  label: 'Rejected',    color: 'text-slate-500' },
+const TABS: { status: Stage; label: string; dot: string }[] = [
+  { status: 'new',       label: 'New Jobs',  dot: 'bg-blue-500' },
+  { status: 'tailoring', label: 'Tailoring', dot: 'bg-violet-500' },
+  { status: 'review',    label: 'Review',    dot: 'bg-amber-500' },
+  { status: 'applied',   label: 'Applied',   dot: 'bg-emerald-500' },
+  { status: 'interview', label: 'Interview', dot: 'bg-rose-500' },
+  { status: 'rejected',  label: 'Rejected',  dot: 'bg-gray-400' },
 ]
+
+function timeAgoShort(str: string) {
+  const h = Math.floor((Date.now() - new Date(str).getTime()) / 3600000)
+  return h < 1 ? 'just now' : `${h}h ago`
+}
 
 export default function DashboardPage() {
   const [stage, setStage] = useState<Stage>('new')
@@ -34,8 +39,7 @@ export default function DashboardPage() {
     setLoading(false)
     if (list.length > 0 && s === 'new') {
       const latest = list.reduce((a: any, b: any) =>
-        new Date(a.found_at) > new Date(b.found_at) ? a : b
-      )
+        new Date(a.found_at) > new Date(b.found_at) ? a : b)
       setLastScraped(latest.found_at)
     }
   }, [])
@@ -52,48 +56,55 @@ export default function DashboardPage() {
   useEffect(() => { fetchItems(stage) }, [stage, fetchItems])
   useEffect(() => { fetchCounts() }, [fetchCounts])
 
-  function timeAgoShort(str: string) {
-    const h = Math.floor((Date.now() - new Date(str).getTime()) / 3600000)
-    return h < 1 ? 'just now' : `${h}h ago`
-  }
-
   return (
-    <div className="flex flex-col h-screen bg-[#0f1117] text-white overflow-hidden">
+    <div className="flex flex-col h-screen bg-gray-50 text-gray-900 overflow-hidden">
 
-      {/* ── Top header ──────────────────────────────────────────── */}
-      <header className="flex items-center justify-between px-5 py-3 bg-[#161b27] border-b border-slate-800 shrink-0">
+      {/* ── Header ──────────────────────────────────────────────── */}
+      <header className="flex items-center justify-between px-6 py-3 bg-white border-b border-gray-200 shrink-0 shadow-sm">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-sm font-bold">JA</div>
+          <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white text-sm font-bold shadow-md shadow-blue-200">
+            JA
+          </div>
           <div>
-            <span className="font-semibold text-white text-sm">Job AI</span>
-            <span className="text-slate-500 text-xs ml-2">for Abdellah · Canada (excl. QC)</span>
+            <span className="font-bold text-gray-900 text-base">Job AI</span>
+            <span className="text-gray-400 text-sm ml-2">· Abdellah · Ontario, BC & NB</span>
           </div>
         </div>
-        <div className="flex items-center gap-4 text-xs text-slate-500">
-          {lastScraped && <span>🕐 last scraped {timeAgoShort(lastScraped)}</span>}
-          <span className="text-slate-300 font-medium">{counts['new'] || 0} matched jobs today</span>
+        <div className="flex items-center gap-5 text-sm">
+          {lastScraped && (
+            <span className="flex items-center gap-1.5 text-gray-400">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              scraped {timeAgoShort(lastScraped)}
+            </span>
+          )}
+          <span className="font-semibold text-gray-700">
+            {counts['new'] || 0} <span className="font-normal text-gray-400">matched today</span>
+          </span>
         </div>
       </header>
 
       {/* ── Pipeline tabs ───────────────────────────────────────── */}
-      <nav className="flex items-center gap-1 px-4 bg-[#161b27] border-b border-slate-800 shrink-0 overflow-x-auto">
-        {TABS.map(({ status, label, color }) => {
+      <nav className="flex items-center gap-0.5 px-4 bg-white border-b border-gray-200 shrink-0 shadow-sm overflow-x-auto">
+        {TABS.map(({ status, label, dot }) => {
           const count = counts[status] ?? 0
           const active = stage === status
           return (
             <button
               key={status}
               onClick={() => setStage(status)}
-              className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
+              className={`flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition-all whitespace-nowrap
                 ${active
-                  ? `border-blue-500 ${color}`
-                  : 'border-transparent text-slate-500 hover:text-slate-300 hover:border-slate-600'
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50'
                 }`}
             >
+              {active && <span className={`w-2 h-2 rounded-full ${dot}`} />}
               {label}
               {count > 0 && (
-                <span className={`text-xs px-1.5 py-0.5 rounded-full font-semibold
-                  ${active ? 'bg-blue-500/20 text-blue-300' : 'bg-slate-800 text-slate-400'}`}>
+                <span className={`text-xs px-2 py-0.5 rounded-full font-semibold
+                  ${active
+                    ? 'bg-blue-100 text-blue-700'
+                    : 'bg-gray-100 text-gray-500'}`}>
                   {count}
                 </span>
               )}
@@ -102,28 +113,23 @@ export default function DashboardPage() {
         })}
       </nav>
 
-      {/* ── Main 2-column body ──────────────────────────────────── */}
+      {/* ── 2-column body ───────────────────────────────────────── */}
       <div className="flex flex-1 overflow-hidden">
 
-        {/* Left: Job list */}
-        <div className="w-[400px] shrink-0 border-r border-slate-800 flex flex-col overflow-hidden bg-[#0f1117]">
+        {/* Left: job list */}
+        <div className="w-[420px] shrink-0 border-r border-gray-200 flex flex-col overflow-hidden bg-white">
           {loading ? (
-            <div className="flex items-center justify-center flex-1 gap-2 text-slate-500 text-sm">
-              <span className="w-4 h-4 border-2 border-slate-600 border-t-blue-500 rounded-full animate-spin" />
-              Loading jobs...
+            <div className="flex items-center justify-center flex-1 gap-2 text-gray-400 text-sm">
+              <span className="w-5 h-5 border-2 border-gray-200 border-t-blue-500 rounded-full animate-spin" />
+              Finding your jobs…
             </div>
           ) : (
-            <JobList
-              items={items}
-              selectedId={selectedId}
-              onSelect={setSelectedId}
-              status={stage}
-            />
+            <JobList items={items} selectedId={selectedId} onSelect={setSelectedId} status={stage} />
           )}
         </div>
 
-        {/* Right: Job detail */}
-        <div className="flex-1 overflow-y-auto bg-[#0f1117]">
+        {/* Right: detail */}
+        <div className="flex-1 overflow-y-auto bg-gray-50">
           {selectedId ? (
             <JobDetailPanel
               itemId={selectedId}
@@ -132,12 +138,16 @@ export default function DashboardPage() {
               onStatusChange={() => { fetchItems(stage); fetchCounts() }}
             />
           ) : (
-            <div className="flex flex-col items-center justify-center h-full gap-3 text-center px-8">
-              <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center text-2xl">👆</div>
-              <p className="text-slate-300 font-medium">Select a job to view details</p>
-              <p className="text-slate-600 text-sm max-w-xs">
-                Jobs are filtered to your skills (50%+ match) and last 24 hours only
-              </p>
+            <div className="flex flex-col items-center justify-center h-full gap-4 text-center px-8">
+              <div className="w-20 h-20 rounded-2xl bg-white border-2 border-dashed border-gray-200 flex items-center justify-center text-3xl shadow-sm">
+                👆
+              </div>
+              <div>
+                <p className="text-gray-700 font-semibold text-lg">Select a job to view details</p>
+                <p className="text-gray-400 text-sm mt-1 max-w-xs">
+                  Showing last 24h jobs from Ontario, BC & NB with 50%+ skill match
+                </p>
+              </div>
             </div>
           )}
         </div>
