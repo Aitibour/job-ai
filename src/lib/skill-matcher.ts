@@ -19,12 +19,20 @@ const CV_SKILLS = [
 ]
 
 const TITLE_KEYWORDS = [
+  // Project / Program management
   'it project manager', 'it program manager', 'senior project manager',
   'senior program manager', 'technology project manager', 'technology program manager',
   'pmo manager', 'pmo director', 'project manager', 'program manager',
   'hospitality technology', 'hotel it', 'pms implementation', 'opera',
-  'implementation manager', 'digital transformation', 'it manager',
-  'delivery manager', 'technical project manager', 'infrastructure manager',
+  'implementation manager', 'digital transformation manager',
+  'delivery manager', 'technical project manager',
+  // Manager level
+  'it manager', 'senior it manager', 'infrastructure manager',
+  'systems manager', 'technology manager', 'it director',
+  // Administrator level
+  'it administrator', 'systems administrator', 'system administrator',
+  'infrastructure administrator', 'network administrator',
+  'senior systems administrator', 'sysadmin',
 ]
 
 export interface MatchResult {

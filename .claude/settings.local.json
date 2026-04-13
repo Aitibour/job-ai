@@ -6,7 +6,23 @@
       "Bash(npx create-next-app@latest job-ai-temp --typescript --tailwind --app --no-src-dir --import-alias \"@/*\" --yes)",
       "Bash(rm -rf \"C:/Users/Abdel/Documents/Claude Code/job-ai-temp\")",
       "Bash(npx create-next-app@latest job-ai-temp --typescript --tailwind --app --src-dir --import-alias \"@/*\" --yes)",
-      "Bash(echo \"Exit: $?\")"
+      "Bash(echo \"Exit: $?\")",
+      "Bash(printf 'NEXT_PUBLIC_SUPABASE_URL=https://nbmcxwpepcvzikyktvnw.supabase.co\\\\nNEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ibWN4d3BlcGN2emlreWt0dm53Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwNDMxNTYsImV4cCI6MjA5MTYxOTE1Nn0.YzkI57kon_YApV-_-LhmAVSmCUAaPqDzVWJ10U4bQzU\\\\nSUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ibWN4d3BlcGN2emlreWt0dm53Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjA0MzE1NiwiZXhwIjoyMDkxNjE5MTU2fQ.oq1UW6OYhWd81-cIlzBu_5jhsxZBx-eUhOrCS3Dk824\\\\nANTHROPIC_API_KEY=YOUR_ANTHROPIC_KEY_HERE\\\\n')",
+      "Bash(vercel whoami:*)",
+      "Bash(vercel env:*)",
+      "Bash(vercel --prod --yes)",
+      "Bash(gh workflow:*)",
+      "Bash(gh run:*)",
+      "Bash(curl -s -X GET \"https://job-ai-livid.vercel.app/api/cron/scrape\" -H \"Authorization: Bearer ce3be96004c23b4c00b0e955fd1c5eccc91be7f99749974f3489237adc0155e4\")",
+      "Bash(curl -s -A \"Mozilla/5.0 \\(compatible; job-ai-bot/1.0\\)\" \"https://www.indeed.com/rss?q=IT+project+manager&l=Canada&fromage=1&sort=date\")",
+      "Bash(curl -s -X POST \"https://job-ai-livid.vercel.app/api/tailor-cv\" -H \"Content-Type: application/json\" -d '{\"job_id\":\"test-123\"}')",
+      "Bash(curl -s \"https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=project+manager&locationstring=ON&period=1&sort=M&fmt=json\" -H \"Accept: application/json\")",
+      "Bash(curl -sv \"https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=project+manager&locationstring=ON&period=1&sort=M\")",
+      "mcp__plugin_supabase-toolkit_supabase__execute_sql",
+      "Bash(node -e ':*)",
+      "Bash(curl -s \"https://job-ai-livid.vercel.app/api/cron/scrape\" -H \"Authorization: Bearer ce3be96004c23b4c00b0e955fd1c5eccc91be7f99749974f3489237adc0155e4\")",
+      "Bash(curl -s \"https://api.adzuna.com/v1/api/jobs/ca/search/1?app_id=1eff1bcb&app_key=109dce951341a3a0f705cea7bc5bbf73&what=IT+project+manager&max_days_old=1&results_per_page=5&sort_by=date\")",
+      "Bash(curl -s \"https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=IT+project+manager&locationstring=Ontario&period=1&sort=M&rss=true\" -H \"User-Agent: Mozilla/5.0\")"
     ]
   }
 }
