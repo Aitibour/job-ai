@@ -40,7 +40,7 @@ export default function DashboardPage() {
   return (
     <div className="flex h-screen bg-slate-950 text-white overflow-hidden">
       <PipelineSidebar selected={stage} counts={counts} onSelect={setStage} />
-      <div className="w-64 shrink-0 border-r border-slate-800 overflow-y-auto">
+      <div className="w-80 shrink-0 border-r border-slate-800 overflow-y-auto">
         {loading ? (
           <div className="p-4 text-slate-500 text-sm">Loading...</div>
         ) : (
