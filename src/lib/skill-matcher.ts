@@ -19,20 +19,24 @@ const CV_SKILLS = [
 ]
 
 const TITLE_KEYWORDS = [
-  // Project / Program management
-  'it project manager', 'it program manager', 'senior project manager',
-  'senior program manager', 'technology project manager', 'technology program manager',
-  'pmo manager', 'pmo director', 'project manager', 'program manager',
-  'hospitality technology', 'hotel it', 'pms implementation', 'opera',
-  'implementation manager', 'digital transformation manager',
-  'delivery manager', 'technical project manager',
-  // Manager level
+  // Technician / Support
+  'it technician', 'it support technician', 'desktop support', 'help desk',
+  'helpdesk', 'desktop technician', 'network technician', 'systems technician',
+  'it support specialist', 'technical support', 'field technician',
+  // Administrator
+  'it administrator', 'systems administrator', 'system administrator',
+  'network administrator', 'infrastructure administrator',
+  'senior systems administrator', 'sysadmin', 'cloud administrator',
+  // Supervisor / Lead
+  'it supervisor', 'it team lead', 'systems supervisor', 'technical supervisor',
+  'it lead', 'team lead technology',
+  // Manager / Senior
   'it manager', 'senior it manager', 'infrastructure manager',
   'systems manager', 'technology manager', 'it director',
-  // Administrator level
-  'it administrator', 'systems administrator', 'system administrator',
-  'infrastructure administrator', 'network administrator',
-  'senior systems administrator', 'sysadmin',
+  'it project manager', 'it program manager', 'senior project manager',
+  'senior program manager', 'pmo manager', 'pmo director',
+  'delivery manager', 'digital transformation manager',
+  'hospitality technology', 'hotel it', 'pms implementation', 'opera',
 ]
 
 export interface MatchResult {
@@ -54,7 +58,7 @@ export function calculateMatchScore(title: string, description: string): MatchRe
   const score = Math.min(100, Math.round((matchedSkills.length / CV_SKILLS.length) * 100 * 2.2))
   // ×2.2 so a job hitting ~45% of keywords → 100%, keeps scoring realistic
 
-  const qualifies = score >= 50 || titleMatch
+  const qualifies = score >= 20 || titleMatch
 
   return { score, matchedSkills, titleMatch, qualifies }
 }

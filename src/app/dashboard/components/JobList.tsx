@@ -80,7 +80,7 @@ export function JobList({ items, selectedId, onSelect, status }: Props) {
         <p className="text-gray-700 font-semibold">No matching jobs yet</p>
         <p className="text-gray-400 text-xs leading-relaxed max-w-[200px]">
           {status === 'new'
-            ? 'Jobs from ON, BC & NB with 50%+ skill match will appear here every 2 hours'
+            ? 'Jobs from all Canada (excl. QC) with 20%+ match from last 3 days will appear here'
             : 'No jobs in this stage yet'}
         </p>
       </div>
@@ -115,7 +115,7 @@ export function JobList({ items, selectedId, onSelect, status }: Props) {
       <div className="px-4 py-2 border-b border-gray-100 shrink-0 bg-gray-50">
         <p className="text-xs text-gray-400">
           <span className="text-gray-700 font-semibold">{filtered.length}</span>
-          {status === 'new' ? ' jobs · last 24h · ON, BC & NB · 50%+ match' : ' jobs in pipeline'}
+          {status === 'new' ? ' jobs · last 3 days · all Canada excl. QC · 20%+ match' : ' jobs in pipeline'}
         </p>
       </div>
 

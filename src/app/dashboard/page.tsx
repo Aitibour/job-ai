@@ -67,7 +67,7 @@ export default function DashboardPage() {
           </div>
           <div>
             <span className="font-bold text-gray-900 text-base">Job AI</span>
-            <span className="text-gray-400 text-sm ml-2">· Abdellah · Ontario, BC & NB</span>
+            <span className="text-gray-400 text-sm ml-2">· Abdellah · All Canada excl. QC</span>
           </div>
         </div>
         <div className="flex items-center gap-5 text-sm">
@@ -145,7 +145,7 @@ export default function DashboardPage() {
               <div>
                 <p className="text-gray-700 font-semibold text-lg">Select a job to view details</p>
                 <p className="text-gray-400 text-sm mt-1 max-w-xs">
-                  Showing last 24h jobs from Ontario, BC & NB with 50%+ skill match
+                  Showing last 3 days · all Canada excl. QC · 20%+ match · all levels
                 </p>
               </div>
             </div>

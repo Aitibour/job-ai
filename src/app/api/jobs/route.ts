@@ -10,8 +10,8 @@ export async function GET(req: NextRequest) {
   const noFilter = searchParams.get('noFilter') === '1' // bypass for non-new stages
 
   if (status === 'new') {
-    // Last 24 hours only
-    const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+    // Last 3 days
+    const since = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
 
     const { data, error } = await supabase
       .from('jobs')

@@ -4,39 +4,76 @@ import type { RawJob } from './indeed'
 const APP_ID = process.env.ADZUNA_APP_ID!
 const APP_KEY = process.env.ADZUNA_APP_KEY!
 
+// ─── Full job title spectrum: technician → admin → supervisor → manager ───
 const SEARCH_TERMS = [
-  // Project / Program management
+  // Technician / Support (entry–mid)
+  'IT technician',
+  'IT support technician',
+  'desktop support technician',
+  'help desk technician',
+  'network technician',
+  'systems technician',
+  'field technician IT',
+  'IT support specialist',
+  'technical support specialist',
+  // Administrator (mid)
+  'IT administrator',
+  'systems administrator',
+  'network administrator',
+  'infrastructure administrator',
+  'senior systems administrator',
+  'cloud administrator',
+  // Supervisor / Team Lead (mid-senior)
+  'IT supervisor',
+  'IT team lead',
+  'systems supervisor',
+  'technical supervisor',
+  // Manager (senior)
+  'IT manager',
   'IT project manager',
   'IT program manager',
-  'senior project manager technology',
-  'PMS implementation manager',
-  'hospitality technology manager',
-  'digital transformation manager',
-  'PMO manager',
-  'delivery manager IT',
-  // Manager level
-  'IT manager',
-  'senior IT manager',
   'infrastructure manager',
   'systems manager',
   'technology manager',
-  // Administrator level
-  'IT administrator',
-  'systems administrator',
-  'infrastructure administrator',
-  'network administrator',
-  'senior systems administrator',
+  'senior IT manager',
+  'PMO manager',
+  'delivery manager IT',
+  'digital transformation manager',
+  'hospitality technology manager',
 ]
 
-// Target: Ontario, BC, New Brunswick — specific cities for best coverage
-const PROVINCE_CITIES: Record<string, string[]> = {
-  ON: ['Toronto', 'Ottawa', 'Mississauga', 'Brampton', 'Hamilton',
-       'Kitchener', 'London Ontario', 'Markham', 'Waterloo', 'Burlington'],
-  BC: ['Vancouver', 'Victoria', 'Kelowna', 'Burnaby', 'Surrey', 'Richmond'],
-  NB: ['Moncton', 'Fredericton', 'Saint John New Brunswick'],
-}
+// ─── All provinces except QC — major cities + province fallbacks ──────────
+const SEARCH_LOCATIONS: { where: string; province: string }[] = [
+  // Ontario — high volume
+  { where: 'Toronto',        province: 'ON' },
+  { where: 'Ottawa',         province: 'ON' },
+  { where: 'Mississauga',    province: 'ON' },
+  { where: 'Hamilton',       province: 'ON' },
+  { where: 'Kitchener',      province: 'ON' },
+  // British Columbia
+  { where: 'Vancouver',      province: 'BC' },
+  { where: 'Victoria',       province: 'BC' },
+  { where: 'Kelowna',        province: 'BC' },
+  // Alberta
+  { where: 'Calgary',        province: 'AB' },
+  { where: 'Edmonton',       province: 'AB' },
+  // Smaller provinces by name (fewer jobs, one search covers all)
+  { where: 'Manitoba',       province: 'MB' },
+  { where: 'Saskatchewan',   province: 'SK' },
+  { where: 'Nova Scotia',    province: 'NS' },
+  { where: 'New Brunswick',  province: 'NB' },
+  { where: 'Newfoundland',   province: 'NL' },
+  { where: 'Prince Edward Island', province: 'PE' },
+  { where: 'Yukon',          province: 'YT' },
+]
 
-const ALL_CITIES = Object.values(PROVINCE_CITIES).flat()
+const PROVINCE_FROM_LOCATION: Record<string, string> = {
+  Toronto: 'ON', Ottawa: 'ON', Mississauga: 'ON', Hamilton: 'ON', Kitchener: 'ON',
+  Vancouver: 'BC', Victoria: 'BC', Kelowna: 'BC',
+  Calgary: 'AB', Edmonton: 'AB',
+  Manitoba: 'MB', Saskatchewan: 'SK', 'Nova Scotia': 'NS',
+  'New Brunswick': 'NB', Newfoundland: 'NL', 'Prince Edward Island': 'PE', Yukon: 'YT',
+}
 
 interface AdzunaJob {
   id: string
@@ -46,35 +83,35 @@ interface AdzunaJob {
   description: string
   redirect_url: string
   created: string
-  salary_min?: number
-  salary_max?: number
 }
 
-function detectProvince(location: string, area?: string[]): string {
+function detectProvince(location: string, area?: string[], fallback = 'CA'): string {
   const text = (area?.join(' ') || location).toUpperCase()
   const map: Record<string, string> = {
-    'ONTARIO': 'ON', 'BRITISH COLUMBIA': 'BC', 'NEW BRUNSWICK': 'NB',
-    'TORONTO': 'ON', 'OTTAWA': 'ON', 'MISSISSAUGA': 'ON', 'BRAMPTON': 'ON',
-    'HAMILTON': 'ON', 'KITCHENER': 'ON', 'WATERLOO': 'ON', 'MARKHAM': 'ON',
-    'LONDON': 'ON', 'BURLINGTON': 'ON', 'WINDSOR': 'ON', 'BARRIE': 'ON',
+    'ONTARIO': 'ON', 'BRITISH COLUMBIA': 'BC', 'ALBERTA': 'AB', 'MANITOBA': 'MB',
+    'SASKATCHEWAN': 'SK', 'NOVA SCOTIA': 'NS', 'NEW BRUNSWICK': 'NB',
+    'NEWFOUNDLAND': 'NL', 'PRINCE EDWARD': 'PE', 'YUKON': 'YT',
+    'NORTHWEST': 'NT', 'NUNAVUT': 'NU',
+    'TORONTO': 'ON', 'OTTAWA': 'ON', 'MISSISSAUGA': 'ON', 'HAMILTON': 'ON',
+    'KITCHENER': 'ON', 'WATERLOO': 'ON', 'LONDON': 'ON', 'BRAMPTON': 'ON',
+    'MARKHAM': 'ON', 'BURLINGTON': 'ON', 'WINDSOR': 'ON', 'BARRIE': 'ON',
     'VANCOUVER': 'BC', 'VICTORIA': 'BC', 'KELOWNA': 'BC', 'BURNABY': 'BC',
-    'SURREY': 'BC', 'RICHMOND': 'BC', 'ABBOTSFORD': 'BC', 'COQUITLAM': 'BC',
-    'MONCTON': 'NB', 'FREDERICTON': 'NB', 'SAINT JOHN': 'NB', 'DIEPPE': 'NB',
+    'SURREY': 'BC', 'RICHMOND': 'BC', 'ABBOTSFORD': 'BC',
+    'CALGARY': 'AB', 'EDMONTON': 'AB', 'RED DEER': 'AB', 'LETHBRIDGE': 'AB',
+    'WINNIPEG': 'MB', 'BRANDON': 'MB',
+    'SASKATOON': 'SK', 'REGINA': 'SK',
+    'HALIFAX': 'NS', 'SYDNEY': 'NS',
+    'MONCTON': 'NB', 'FREDERICTON': 'NB', 'SAINT JOHN': 'NB',
+    'CHARLOTTETOWN': 'PE',
   }
   for (const [k, v] of Object.entries(map)) if (text.includes(k)) return v
-  return 'CA'
+  return fallback
 }
 
-function isExcluded(location: string, area?: string[]): boolean {
+function isQuebec(location: string, area?: string[]): boolean {
   const text = (area?.join(' ') || location).toLowerCase()
-  // Keep only ON, BC, NB — exclude everything else
-  const excluded = [
-    'québec', 'quebec', 'montréal', 'montreal', 'laval', 'longueuil',
-    'alberta', 'calgary', 'edmonton', 'manitoba', 'winnipeg',
-    'saskatchewan', 'regina', 'saskatoon', 'nova scotia', 'halifax',
-    'prince edward', 'newfoundland', 'northwest', 'yukon', 'nunavut',
-  ]
-  return excluded.some(x => text.includes(x))
+  return ['québec', 'quebec', 'montréal', 'montreal', 'laval', 'longueuil',
+          ', qc', 'québec province'].some(x => text.includes(x))
 }
 
 async function fetchAdzuna(term: string, where: string): Promise<AdzunaJob[]> {
@@ -83,41 +120,36 @@ async function fetchAdzuna(term: string, where: string): Promise<AdzunaJob[]> {
     app_key: APP_KEY,
     what: term,
     where,
-    max_days_old: '1',
+    max_days_old: '3',
     results_per_page: '50',
     sort_by: 'date',
   })
   try {
-    const res = await fetch(
-      `https://api.adzuna.com/v1/api/jobs/ca/search/1?${params}`,
-      { signal: AbortSignal.timeout(12000) }
-    )
+    const res = await fetch(`https://api.adzuna.com/v1/api/jobs/ca/search/1?${params}`,
+      { signal: AbortSignal.timeout(12000) })
     if (!res.ok) return []
     const data = await res.json()
     return data?.results || []
-  } catch {
-    return []
-  }
+  } catch { return [] }
 }
 
 export async function scrapeAdzuna(): Promise<RawJob[]> {
   const seen = new Set<string>()
   const allJobs: RawJob[] = []
 
-  // Batch all fetches: every search term × every target city
-  const tasks: Promise<AdzunaJob[]>[] = []
-  for (const term of SEARCH_TERMS) {
-    for (const city of ALL_CITIES) {
-      tasks.push(fetchAdzuna(term, city))
-    }
-  }
+  // Fire all in parallel — ~31 terms × 17 locations = ~527 calls, batched
+  const tasks = SEARCH_TERMS.flatMap(term =>
+    SEARCH_LOCATIONS.map(loc => fetchAdzuna(term, loc.where).then(jobs =>
+      jobs.map(j => ({ job: j, provinceFallback: loc.province }))
+    ))
+  )
 
   const settled = await Promise.allSettled(tasks)
   const results = settled.flatMap(r => r.status === 'fulfilled' ? r.value : [])
 
-  for (const job of results) {
+  for (const { job, provinceFallback } of results) {
     const location = job.location?.display_name || ''
-    if (isExcluded(location, job.location?.area)) continue
+    if (isQuebec(location, job.location?.area)) continue
 
     const externalId = crypto.createHash('md5').update(job.id).digest('hex')
     if (seen.has(externalId)) continue
@@ -128,7 +160,7 @@ export async function scrapeAdzuna(): Promise<RawJob[]> {
       title: job.title,
       company: job.company?.display_name || 'Unknown',
       location,
-      province: detectProvince(location, job.location?.area),
+      province: detectProvince(location, job.location?.area, provinceFallback),
       url: job.redirect_url,
       description: job.description,
       source: 'other',
