@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase-server'
 import { tagIndustry } from '@/lib/scrapers/industry-tagger'
-import { scrapeIndeed } from '@/lib/scrapers/indeed'
-import { scrapeJobBank } from '@/lib/scrapers/jobbank'
+import { scrapeAdzuna } from '@/lib/scrapers/adzuna'
 
 export const maxDuration = 300
 
@@ -19,18 +18,9 @@ export async function GET(req: NextRequest) {
   const errors: string[] = []
 
   try {
-    const [indeedJobs, jobbankJobs] = await Promise.allSettled([
-      scrapeIndeed(),
-      scrapeJobBank(),
-    ])
-
-    const allJobs = [
-      ...(indeedJobs.status === 'fulfilled' ? indeedJobs.value : []),
-      ...(jobbankJobs.status === 'fulfilled' ? jobbankJobs.value : []),
-    ]
-
-    if (indeedJobs.status === 'rejected') errors.push(`Indeed: ${indeedJobs.reason}`)
-    if (jobbankJobs.status === 'rejected') errors.push(`JobBank: ${jobbankJobs.reason}`)
+    const adzunaResult = await Promise.allSettled([scrapeAdzuna()])
+    const allJobs = adzunaResult[0].status === 'fulfilled' ? adzunaResult[0].value : []
+    if (adzunaResult[0].status === 'rejected') errors.push(`Adzuna: ${adzunaResult[0].reason}`)
 
     for (const job of allJobs) {
       const industry = tagIndustry(job.title, job.company, job.description)
