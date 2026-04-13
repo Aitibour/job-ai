@@ -56,7 +56,7 @@ export function JobDetailPanel({ itemId, stage, items, onStatusChange }: Props) 
       .then(({ data }) => setCvVersion(data))
   }, [job])
 
-  const handleTailorCv = async () => {
+  const handleTailorCv = async (notes?: string) => {
     if (!job) return
     setIsTailoring(true)
 
@@ -72,7 +72,7 @@ export function JobDetailPanel({ itemId, stage, items, onStatusChange }: Props) 
     const res = await fetch('/api/tailor-cv', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ job_id: job.id }),
+      body: JSON.stringify({ job_id: job.id, notes: notes || '' }),
     })
     const cv = await res.json()
     if (!res.ok) { setIsTailoring(false); return }
