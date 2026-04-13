@@ -1,0 +1,129 @@
+<h2>Job AI Dashboard — Layout Options</h2>
+<p class="subtitle">Which layout feels right for tracking your applications 24/7?</p>
+
+<div class="cards">
+
+  <!-- Option A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f172a;padding:14px;border-radius:6px;font-family:monospace;font-size:11px;color:#94a3b8">
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <div style="background:#1e40af;color:#fff;padding:4px 10px;border-radius:4px;font-size:10px">14 New Jobs</div>
+        <div style="background:#065f46;color:#fff;padding:4px 10px;border-radius:4px;font-size:10px">3 Applied</div>
+        <div style="background:#7c3aed;color:#fff;padding:4px 10px;border-radius:4px;font-size:10px">2 Tailored CVs</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">
+        <div style="background:#1e293b;padding:8px;border-radius:4px;color:#60a5fa;font-size:10px"><div style="font-size:18px;font-weight:bold;color:#fff">47</div>Jobs Found (24h)</div>
+        <div style="background:#1e293b;padding:8px;border-radius:4px;font-size:10px"><div style="font-size:18px;font-weight:bold;color:#fff">12</div>CVs Tailored</div>
+        <div style="background:#1e293b;padding:8px;border-radius:4px;font-size:10px"><div style="font-size:18px;font-weight:bold;color:#fff">8</div>Awaiting Review</div>
+      </div>
+      <div style="background:#1e293b;border-radius:4px;overflow:hidden">
+        <div style="background:#0f172a;padding:5px 8px;font-size:9px;color:#475569;border-bottom:1px solid #334155">LATEST JOB MATCHES</div>
+        <div style="padding:6px 8px;border-bottom:1px solid #1e293b;display:flex;justify-content:space-between;align-items:center">
+          <div><div style="color:#e2e8f0;font-size:10px">IT Manager — Marriott Hotels</div><div style="color:#64748b;font-size:9px">Toronto, ON · LinkedIn · 2h ago</div></div>
+          <div style="background:#1e40af;color:#fff;padding:2px 6px;border-radius:3px;font-size:9px">Review CV</div>
+        </div>
+        <div style="padding:6px 8px;border-bottom:1px solid #1e293b;display:flex;justify-content:space-between;align-items:center">
+          <div><div style="color:#e2e8f0;font-size:10px">Project Manager IT — Fairmont</div><div style="color:#64748b;font-size:9px">Vancouver, BC · Indeed · 5h ago</div></div>
+          <div style="background:#065f46;color:#fff;padding:2px 6px;border-radius:3px;font-size:9px">Applied ✓</div>
+        </div>
+        <div style="padding:6px 8px;display:flex;justify-content:space-between;align-items:center">
+          <div><div style="color:#e2e8f0;font-size:10px">IT Operations Manager — IHG</div><div style="color:#64748b;font-size:9px">Calgary, AB · Job Bank · 8h ago</div></div>
+          <div style="background:#7c3aed;color:#fff;padding:2px 6px;border-radius:3px;font-size:9px">Tailoring…</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Command Centre</h3>
+      <p>Dark theme. Stats at top, live job feed below. Compact and information-dense — built for scanning quickly.</p>
+    </div>
+  </div>
+
+  <!-- Option B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;padding:14px;border-radius:6px;font-size:11px;color:#334155">
+      <div style="display:flex;gap:6px;margin-bottom:10px;font-size:10px">
+        <div style="background:#dbeafe;color:#1d4ed8;padding:4px 8px;border-radius:20px">IT Manager</div>
+        <div style="background:#dcfce7;color:#15803d;padding:4px 8px;border-radius:20px">Project Manager</div>
+        <div style="background:#fef9c3;color:#a16207;padding:4px 8px;border-radius:20px">IT Operations</div>
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:10px">
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;flex:1;text-align:center">
+          <div style="font-size:20px;font-weight:bold;color:#1d4ed8">47</div>
+          <div style="font-size:9px;color:#64748b">New Today</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;flex:1;text-align:center">
+          <div style="font-size:20px;font-weight:bold;color:#15803d">8</div>
+          <div style="font-size:9px;color:#64748b">Applied</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;flex:1;text-align:center">
+          <div style="font-size:20px;font-weight:bold;color:#7c3aed">2</div>
+          <div style="font-size:9px;color:#64748b">Interviews</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px">
+          <div style="font-weight:600;color:#0f172a;margin-bottom:4px;font-size:10px">IT Manager — Marriott Hotels</div>
+          <div style="color:#64748b;font-size:9px;margin-bottom:6px">Toronto · LinkedIn · 2h ago · <span style="color:#16a34a">ATS 94%</span></div>
+          <div style="display:flex;gap:4px"><div style="background:#dbeafe;color:#1d4ed8;padding:2px 5px;border-radius:3px;font-size:8px">Hospitality</div><div style="background:#f0fdf4;color:#15803d;padding:2px 5px;border-radius:3px;font-size:8px">CV Ready</div></div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px">
+          <div style="font-weight:600;color:#0f172a;margin-bottom:4px;font-size:10px">Project Manager IT — Fairmont</div>
+          <div style="color:#64748b;font-size:9px;margin-bottom:6px">Vancouver · Indeed · 5h ago · <span style="color:#16a34a">ATS 91%</span></div>
+          <div style="display:flex;gap:4px"><div style="background:#dbeafe;color:#1d4ed8;padding:2px 5px;border-radius:3px;font-size:8px">Hospitality</div><div style="background:#fef9c3;color:#a16207;padding:2px 5px;border-radius:3px;font-size:8px">Applied</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Card Grid</h3>
+      <p>Light theme. Job cards in a grid with ATS score, role tags, and status badges. Clean and professional.</p>
+    </div>
+  </div>
+
+  <!-- Option C -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff;padding:14px;border-radius:6px;font-size:11px;color:#334155;display:flex;gap:8px">
+      <div style="width:80px;flex-shrink:0">
+        <div style="background:#f1f5f9;border-radius:6px;padding:6px;margin-bottom:6px">
+          <div style="font-size:9px;color:#64748b;margin-bottom:3px">PIPELINE</div>
+          <div style="font-size:9px;padding:3px 0;color:#1d4ed8;cursor:pointer">📋 New (14)</div>
+          <div style="font-size:9px;padding:3px 0;color:#7c3aed">✍️ Tailoring (3)</div>
+          <div style="font-size:9px;padding:3px 0;color:#d97706">👀 Review (8)</div>
+          <div style="font-size:9px;padding:3px 0;color:#16a34a">✅ Applied (12)</div>
+          <div style="font-size:9px;padding:3px 0;color:#dc2626">📞 Interview (2)</div>
+        </div>
+        <div style="background:#f1f5f9;border-radius:6px;padding:6px">
+          <div style="font-size:9px;color:#64748b;margin-bottom:3px">FILTERS</div>
+          <div style="font-size:9px;color:#334155;padding:2px 0">Hospitality ☑</div>
+          <div style="font-size:9px;color:#334155;padding:2px 0">IT Manager ☑</div>
+          <div style="font-size:9px;color:#334155;padding:2px 0">Toronto ☑</div>
+        </div>
+      </div>
+      <div style="flex:1">
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:8px;margin-bottom:6px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+            <div style="font-weight:600;color:#0f172a;font-size:10px">IT Manager — Marriott Hotels</div>
+            <div style="background:#dcfce7;color:#15803d;padding:1px 5px;border-radius:3px;font-size:8px">ATS 94%</div>
+          </div>
+          <div style="color:#64748b;font-size:9px;margin-bottom:5px">Toronto, ON · LinkedIn · 2 hours ago</div>
+          <div style="color:#475569;font-size:9px;margin-bottom:6px;line-height:1.4">Seeking IT Manager with PMS migration experience, OPERA Cloud expertise…</div>
+          <div style="display:flex;gap:4px">
+            <div style="background:#1d4ed8;color:#fff;padding:2px 6px;border-radius:3px;font-size:8px">View CV Draft</div>
+            <div style="background:#15803d;color:#fff;padding:2px 6px;border-radius:3px;font-size:8px">Apply Now →</div>
+          </div>
+        </div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:8px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+            <div style="font-weight:600;color:#0f172a;font-size:10px">IT Operations Manager — IHG</div>
+            <div style="background:#dbeafe;color:#1d4ed8;padding:1px 5px;border-radius:3px;font-size:8px">Tailoring…</div>
+          </div>
+          <div style="color:#64748b;font-size:9px">Calgary, AB · Job Bank · 8 hours ago</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Pipeline View</h3>
+      <p>Sidebar pipeline stages + job detail panel. Kanban-style progress tracking from "Found" → "Applied" → "Interview".</p>
+    </div>
+  </div>
+
+</div>

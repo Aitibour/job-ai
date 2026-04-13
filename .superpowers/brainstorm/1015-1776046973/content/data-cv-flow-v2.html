@@ -1,0 +1,149 @@
+<h2>Database Schema + CV Flow (Updated)</h2>
+<p class="subtitle">Humanized CV · No dashes · Full copy of sent CV + job description saved · Reviewable pipeline</p>
+
+<div style="font-family:system-ui;max-width:860px;margin:0 auto">
+
+  <!-- DB Schema -->
+  <div style="margin-bottom:16px">
+    <div style="color:#86efac;font-weight:600;font-size:12px;margin-bottom:10px">🗄️ Supabase — 3 Tables (updated)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+
+      <div style="background:#0f172a;border:1px solid #16a34a;border-radius:8px;overflow:hidden">
+        <div style="background:#0c2a1e;padding:8px 12px;font-size:11px;font-weight:700;color:#86efac">jobs</div>
+        <div style="padding:10px 12px">
+          <div style="font-size:9px;color:#64748b;margin-bottom:6px;font-style:italic">One row per unique posting</div>
+          <table style="width:100%;font-size:9px;border-collapse:collapse">
+            <tr><td style="color:#fcd34d;padding:2px 0">id</td><td style="color:#64748b;padding:2px 4px">uuid PK</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">title</td><td style="color:#64748b;padding:2px 4px">text</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">company</td><td style="color:#64748b;padding:2px 4px">text</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">location</td><td style="color:#64748b;padding:2px 4px">text</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">province</td><td style="color:#64748b;padding:2px 4px">text</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">source</td><td style="color:#64748b;padding:2px 4px">linkedin|indeed|…</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">url</td><td style="color:#64748b;padding:2px 4px">text</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">description</td><td style="color:#64748b;padding:2px 4px">text</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">industry</td><td style="color:#64748b;padding:2px 4px">hospitality|tech|…</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">posted_at</td><td style="color:#64748b;padding:2px 4px">timestamptz</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">external_id</td><td style="color:#64748b;padding:2px 4px">text UNIQUE</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div style="background:#0f172a;border:1px solid #7c3aed;border-radius:8px;overflow:hidden">
+        <div style="background:#1e1040;padding:8px 12px;font-size:11px;font-weight:700;color:#c4b5fd">applications</div>
+        <div style="padding:10px 12px">
+          <div style="font-size:9px;color:#64748b;margin-bottom:6px;font-style:italic">Your pipeline row</div>
+          <table style="width:100%;font-size:9px;border-collapse:collapse">
+            <tr><td style="color:#fcd34d;padding:2px 0">id</td><td style="color:#64748b;padding:2px 4px">uuid PK</td></tr>
+            <tr><td style="color:#c4b5fd;padding:2px 0">job_id</td><td style="color:#64748b;padding:2px 4px">→ jobs.id</td></tr>
+            <tr><td style="color:#c4b5fd;padding:2px 0">status</td><td style="color:#64748b;padding:2px 4px">new|tailoring|review<br>|applied|interview<br>|rejected</td></tr>
+            <tr><td style="color:#c4b5fd;padding:2px 0">applied_at</td><td style="color:#64748b;padding:2px 4px">timestamptz</td></tr>
+            <tr><td style="color:#c4b5fd;padding:2px 0">notes</td><td style="color:#64748b;padding:2px 4px">text</td></tr>
+            <tr><td style="color:#c4b5fd;padding:2px 0">created_at</td><td style="color:#64748b;padding:2px 4px">timestamptz</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div style="background:#0f172a;border:1px solid #d97706;border-radius:8px;overflow:hidden">
+        <div style="background:#1c1000;padding:8px 12px;font-size:11px;font-weight:700;color:#fcd34d">cv_versions <span style="color:#d97706;font-weight:400;font-size:9px">← updated</span></div>
+        <div style="padding:10px 12px">
+          <div style="font-size:9px;color:#64748b;margin-bottom:6px;font-style:italic">Full record of what was sent + why</div>
+          <table style="width:100%;font-size:9px;border-collapse:collapse">
+            <tr><td style="color:#fcd34d;padding:2px 0">id</td><td style="color:#64748b;padding:2px 4px">uuid PK</td></tr>
+            <tr><td style="color:#fcd34d;padding:2px 0">job_id</td><td style="color:#64748b;padding:2px 4px">→ jobs.id</td></tr>
+            <tr><td style="color:#fcd34d;padding:2px 0">cv_content</td><td style="color:#64748b;padding:2px 4px">text (humanized prose)</td></tr>
+            <tr><td style="color:#fcd34d;padding:2px 0">pdf_url</td><td style="color:#64748b;padding:2px 4px">Supabase Storage</td></tr>
+            <tr><td style="color:#ef4444;padding:2px 0;font-weight:600">jd_snapshot</td><td style="color:#ef4444;padding:2px 4px">text ← NEW</td></tr>
+            <tr><td style="color:#ef4444;padding:2px 0;font-weight:600">jd_pdf_url</td><td style="color:#ef4444;padding:2px 4px">Storage ← NEW</td></tr>
+            <tr><td style="color:#fcd34d;padding:2px 0">ats_score</td><td style="color:#64748b;padding:2px 4px">int (0–100)</td></tr>
+            <tr><td style="color:#fcd34d;padding:2px 0">keywords_matched</td><td style="color:#64748b;padding:2px 4px">text[]</td></tr>
+            <tr><td style="color:#ef4444;padding:2px 0;font-weight:600">version</td><td style="color:#ef4444;padding:2px 4px">int ← NEW (v1, v2…)</td></tr>
+            <tr><td style="color:#fcd34d;padding:2px 0">created_at</td><td style="color:#64748b;padding:2px 4px">timestamptz</td></tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Humanized CV -->
+  <div style="background:#0f172a;border-radius:10px;padding:14px;margin-bottom:12px">
+    <div style="color:#fcd34d;font-weight:600;font-size:12px;margin-bottom:10px">✍️ What "Humanized — No Dashes" means for your CV</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div>
+        <div style="color:#ef4444;font-size:10px;font-weight:600;margin-bottom:6px">✗ Before (generic ATS dash format)</div>
+        <div style="background:#1e1010;border:1px solid #7f1d1d;border-radius:6px;padding:10px;font-size:10px;color:#fca5a5;line-height:1.7;font-family:monospace">
+          • Led Oracle OPERA Cloud migration<br>
+          • Managed 20+ properties across 3 countries<br>
+          • Achieved 95% on-time delivery<br>
+          • Reduced OPEX by 90%
+        </div>
+      </div>
+      <div>
+        <div style="color:#86efac;font-size:10px;font-weight:600;margin-bottom:6px">✓ After (humanized prose — reads like a person)</div>
+        <div style="background:#0c2a1e;border:1px solid #15803d;border-radius:6px;padding:10px;font-size:10px;color:#bbf7d0;line-height:1.7;font-family:serif">
+          Directed the Oracle OPERA Cloud migration across 20+ properties in Morocco, Algeria, and Tunisia — every property went live on schedule with zero guest-facing outages. Rebuilt the IT PMO from scratch, governing 16 concurrent projects at 95% on-time delivery and cutting OPEX by 90% through data-centre virtualisation.
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:10px;background:#1c1000;border:1px solid #92400e;border-radius:6px;padding:8px 12px;font-size:9px;color:#d97706">
+      Claude's prompt instructs: write in confident first-person past tense, combine related bullets into flowing sentences, lead with impact numbers, never use hyphens as list markers, avoid corporate jargon.
+    </div>
+  </div>
+
+  <!-- Pipeline improvement: side-by-side view -->
+  <div style="background:#0f172a;border-radius:10px;padding:14px">
+    <div style="color:#c4b5fd;font-weight:600;font-size:12px;margin-bottom:10px">📋 Pipeline Detail Panel — CV sent + Job Description side by side</div>
+
+    <div style="background:#1e293b;border-radius:8px;overflow:hidden;font-size:10px">
+      <!-- Panel header -->
+      <div style="background:#0f172a;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #334155">
+        <div>
+          <span style="color:#e2e8f0;font-weight:600">IT Manager — Marriott Hotels</span>
+          <span style="color:#64748b;margin-left:8px">Toronto, ON · LinkedIn · Applied Apr 12</span>
+        </div>
+        <div style="display:flex;gap:6px">
+          <div style="background:#065f46;color:#86efac;padding:2px 8px;border-radius:4px;font-size:9px">Applied ✓</div>
+          <div style="background:#1e3a5f;color:#93c5fd;padding:2px 8px;border-radius:4px;font-size:9px">ATS 94%</div>
+          <div style="background:#1c1000;color:#fcd34d;padding:2px 8px;border-radius:4px;font-size:9px">📄 v1 → v2</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div style="display:flex;border-bottom:1px solid #334155">
+        <div style="padding:6px 14px;font-size:10px;color:#c4b5fd;border-bottom:2px solid #7c3aed;cursor:pointer">CV Sent (v1)</div>
+        <div style="padding:6px 14px;font-size:10px;color:#64748b;cursor:pointer">Job Description</div>
+        <div style="padding:6px 14px;font-size:10px;color:#64748b;cursor:pointer">Side by Side</div>
+        <div style="padding:6px 14px;font-size:10px;color:#64748b;cursor:pointer">Improve CV →</div>
+      </div>
+
+      <!-- Split preview -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+        <div style="padding:12px;border-right:1px solid #334155">
+          <div style="color:#86efac;font-size:9px;font-weight:600;margin-bottom:6px;text-transform:uppercase">CV Sent · Apr 12, 2026</div>
+          <div style="color:#94a3b8;font-size:9px;line-height:1.7;font-family:serif">
+            Directed the Oracle OPERA Cloud migration across 20+ properties in Morocco, Algeria, and Tunisia — every property went live on schedule with zero guest-facing outages.<br><br>
+            Built the IT PMO from scratch at Barcelo Hotel Group, governing 16 concurrent projects at 95% on-time delivery while cutting OPEX by 90%…
+          </div>
+          <div style="margin-top:8px;display:flex;gap:4px">
+            <div style="background:#1e3a5f;color:#93c5fd;padding:2px 6px;border-radius:3px;font-size:8px">📥 Download PDF</div>
+            <div style="background:#2d1b69;color:#c4b5fd;padding:2px 6px;border-radius:3px;font-size:8px">✍️ Re-tailor v2</div>
+          </div>
+        </div>
+        <div style="padding:12px">
+          <div style="color:#fcd34d;font-size:9px;font-weight:600;margin-bottom:6px;text-transform:uppercase">Job Description · Saved Snapshot</div>
+          <div style="color:#94a3b8;font-size:9px;line-height:1.7">
+            We are looking for an experienced IT Manager to oversee technology operations across our Marriott properties in the GTA. The ideal candidate brings 7+ years of hospitality IT experience, PMS migration expertise (OPERA Cloud preferred), and proven PMO governance skills…
+          </div>
+          <div style="margin-top:8px">
+            <div style="color:#64748b;font-size:8px">Keywords matched: <span style="color:#86efac">OPERA Cloud, PMS migration, PMO, hospitality, IT governance, vendor management</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:10px;color:#64748b;font-size:10px;line-height:1.6">
+      Every time you apply, the exact CV sent <strong style="color:#e2e8f0">and</strong> the job description are frozen together in <code style="background:#1e293b;padding:1px 4px;border-radius:3px;color:#fcd34d">cv_versions</code>. You can re-open any past application, see exactly what went out, compare against the JD, and generate an improved v2 CV at any time.
+    </div>
+  </div>
+
+</div>

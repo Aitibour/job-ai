@@ -1,0 +1,134 @@
+<h2>System Architecture — Job AI (Updated)</h2>
+<p class="subtitle">Hospitality-first search · Last 24h only · Canada excl. Quebec</p>
+
+<div style="font-family:system-ui;max-width:860px;margin:0 auto">
+
+  <!-- Flow -->
+  <div style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr;gap:0;align-items:center;margin-bottom:20px;background:#0f172a;border-radius:12px;padding:20px 16px">
+    <div style="text-align:center">
+      <div style="font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Job Sources</div>
+      <div style="background:#1e293b;border-radius:8px;padding:10px 6px">
+        <div style="font-size:18px;margin-bottom:4px">🌐</div>
+        <div style="font-size:10px;color:#94a3b8;line-height:1.6">LinkedIn<br>Indeed<br>Glassdoor<br>Job Bank<br>ZipRecruiter<br>Workopolis<br>Eluta<br>Monster<br>SimplyHired<br>Talent.com</div>
+      </div>
+    </div>
+    <div style="color:#334155;font-size:20px;padding:0 4px">→</div>
+    <div style="text-align:center">
+      <div style="font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Scraper Engine</div>
+      <div style="background:#1e3a5f;border:1px solid #1d4ed8;border-radius:8px;padding:10px 6px">
+        <div style="font-size:18px;margin-bottom:4px">⚙️</div>
+        <div style="font-size:11px;color:#93c5fd;font-weight:600">GitHub Actions</div>
+        <div style="font-size:9px;color:#64748b;margin-top:4px">Python + JobSpy<br>Every 2 hours<br>Canada excl. QC<br>⏱ Last 24h only</div>
+      </div>
+    </div>
+    <div style="color:#334155;font-size:20px;padding:0 4px">→</div>
+    <div style="text-align:center">
+      <div style="font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Database</div>
+      <div style="background:#0c2a1e;border:1px solid #16a34a;border-radius:8px;padding:10px 6px">
+        <div style="font-size:18px;margin-bottom:4px">🗄️</div>
+        <div style="font-size:11px;color:#86efac;font-weight:600">Supabase</div>
+        <div style="font-size:9px;color:#64748b;margin-top:4px">PostgreSQL<br>jobs table<br>applications<br>cv_versions</div>
+      </div>
+    </div>
+    <div style="color:#334155;font-size:20px;padding:0 4px">⇄</div>
+    <div style="text-align:center">
+      <div style="font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Dashboard</div>
+      <div style="background:#2d1b69;border:1px solid #7c3aed;border-radius:8px;padding:10px 6px">
+        <div style="font-size:18px;margin-bottom:4px">📊</div>
+        <div style="font-size:11px;color:#c4b5fd;font-weight:600">Next.js / Vercel</div>
+        <div style="font-size:9px;color:#64748b;margin-top:4px">Pipeline view<br>Job details<br>CV drafts<br>Apply links</div>
+      </div>
+    </div>
+    <div style="color:#334155;font-size:20px;padding:0 4px">→</div>
+    <div style="text-align:center">
+      <div style="font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">CV Tailor</div>
+      <div style="background:#3b1a00;border:1px solid #d97706;border-radius:8px;padding:10px 6px">
+        <div style="font-size:18px;margin-bottom:4px">🤖</div>
+        <div style="font-size:11px;color:#fcd34d;font-weight:600">Claude API</div>
+        <div style="font-size:9px;color:#64748b;margin-top:4px">Sonnet 4.6<br>ATS rewrite<br>PDF output<br>~$0.03/CV</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Industry priority + search terms -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+
+    <div style="background:#1e293b;border-radius:8px;padding:14px">
+      <div style="color:#93c5fd;font-weight:600;font-size:12px;margin-bottom:10px">🏨 Industry Priority</div>
+
+      <div style="margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+          <div style="background:#d97706;color:#fff;font-size:9px;padding:1px 6px;border-radius:10px;font-weight:700">1st</div>
+          <div style="color:#fcd34d;font-size:11px;font-weight:600">Hospitality</div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;padding-left:4px">
+          <span style="background:#3b2000;color:#fcd34d;padding:2px 7px;border-radius:10px;font-size:9px">Hotels & Resorts</span>
+          <span style="background:#3b2000;color:#fcd34d;padding:2px 7px;border-radius:10px;font-size:9px">Casino / Gaming</span>
+          <span style="background:#3b2000;color:#fcd34d;padding:2px 7px;border-radius:10px;font-size:9px">Food & Beverage</span>
+          <span style="background:#3b2000;color:#fcd34d;padding:2px 7px;border-radius:10px;font-size:9px">Travel & Tourism</span>
+          <span style="background:#3b2000;color:#fcd34d;padding:2px 7px;border-radius:10px;font-size:9px">Property Mgmt</span>
+        </div>
+      </div>
+
+      <div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+          <div style="background:#475569;color:#fff;font-size:9px;padding:1px 6px;border-radius:10px;font-weight:700">2nd</div>
+          <div style="color:#94a3b8;font-size:11px;font-weight:600">Other Related Industries</div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;padding-left:4px">
+          <span style="background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:2px 7px;border-radius:10px;font-size:9px">Real Estate</span>
+          <span style="background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:2px 7px;border-radius:10px;font-size:9px">Healthcare</span>
+          <span style="background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:2px 7px;border-radius:10px;font-size:9px">Retail / Facilities</span>
+          <span style="background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:2px 7px;border-radius:10px;font-size:9px">Tech / MSP</span>
+          <span style="background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:2px 7px;border-radius:10px;font-size:9px">Finance / Banking</span>
+          <span style="background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:2px 7px;border-radius:10px;font-size:9px">Gov / Public Sector</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#1e293b;border-radius:8px;padding:14px">
+      <div style="color:#93c5fd;font-weight:600;font-size:12px;margin-bottom:10px">🔍 Job Titles Searched</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px">
+        <span style="background:#1e3a5f;color:#93c5fd;padding:2px 7px;border-radius:10px;font-size:9px">IT Manager</span>
+        <span style="background:#1e3a5f;color:#93c5fd;padding:2px 7px;border-radius:10px;font-size:9px">IT Director</span>
+        <span style="background:#1e3a5f;color:#93c5fd;padding:2px 7px;border-radius:10px;font-size:9px">Project Manager IT</span>
+        <span style="background:#1e3a5f;color:#93c5fd;padding:2px 7px;border-radius:10px;font-size:9px">Program Manager</span>
+        <span style="background:#1e3a5f;color:#93c5fd;padding:2px 7px;border-radius:10px;font-size:9px">IT Operations Manager</span>
+        <span style="background:#1e3a5f;color:#93c5fd;padding:2px 7px;border-radius:10px;font-size:9px">IT Operations</span>
+        <span style="background:#1e3a5f;color:#93c5fd;padding:2px 7px;border-radius:10px;font-size:9px">System Administrator</span>
+        <span style="background:#1e3a5f;color:#93c5fd;padding:2px 7px;border-radius:10px;font-size:9px">Network Administrator</span>
+        <span style="background:#1e3a5f;color:#93c5fd;padding:2px 7px;border-radius:10px;font-size:9px">PMO Manager</span>
+        <span style="background:#1e3a5f;color:#93c5fd;padding:2px 7px;border-radius:10px;font-size:9px">IT Infrastructure Manager</span>
+        <span style="background:#1e3a5f;color:#93c5fd;padding:2px 7px;border-radius:10px;font-size:9px">Network Engineer</span>
+        <span style="background:#1e3a5f;color:#93c5fd;padding:2px 7px;border-radius:10px;font-size:9px">IT Support Manager</span>
+      </div>
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid #334155">
+        <div style="display:flex;gap:12px;font-size:10px">
+          <div style="color:#64748b">📍 <span style="color:#e2e8f0">ON, BC, AB, MB, SK, NS, NB, PE, NL</span></div>
+          <div style="color:#64748b">⏱ <span style="color:#e2e8f0">Last 24h only</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- How hospitality-first works -->
+  <div style="background:#1e293b;border-radius:8px;padding:14px">
+    <div style="color:#fcd34d;font-weight:600;font-size:12px;margin-bottom:8px">🏆 How "Hospitality First" works in practice</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;font-size:10px;color:#94a3b8">
+      <div>
+        <div style="color:#e2e8f0;font-weight:600;margin-bottom:4px">Sorting</div>
+        Jobs from hotel/resort/casino companies always appear at the top of your pipeline. Other industries sorted below.
+      </div>
+      <div>
+        <div style="color:#e2e8f0;font-weight:600;margin-bottom:4px">Industry Tag</div>
+        Each job gets auto-tagged: 🏨 Hospitality, 🏥 Healthcare, 💻 Tech, 🏦 Finance, etc. — so you can filter instantly.
+      </div>
+      <div>
+        <div style="color:#e2e8f0;font-weight:600;margin-bottom:4px">CV Tailoring</div>
+        Claude's rewrite prompt emphasizes your OPERA Cloud + Marriott/Barcelo experience when tailoring for hospitality roles.
+      </div>
+    </div>
+  </div>
+
+</div>

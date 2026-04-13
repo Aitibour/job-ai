@@ -1,0 +1,138 @@
+<h2>Database Schema + CV Tailoring Flow</h2>
+<p class="subtitle">What gets stored and how your CV gets rewritten for each job</p>
+
+<div style="font-family:system-ui;max-width:860px;margin:0 auto">
+
+  <!-- DB Schema -->
+  <div style="margin-bottom:16px">
+    <div style="color:#86efac;font-weight:600;font-size:12px;margin-bottom:10px;display:flex;align-items:center;gap:6px">
+      <span style="background:#0c2a1e;border:1px solid #16a34a;padding:2px 8px;border-radius:4px">🗄️ Supabase — 3 Tables</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+
+      <!-- jobs table -->
+      <div style="background:#0f172a;border:1px solid #16a34a;border-radius:8px;overflow:hidden">
+        <div style="background:#0c2a1e;padding:8px 12px;font-size:11px;font-weight:700;color:#86efac">jobs</div>
+        <div style="padding:10px 12px">
+          <div style="font-size:9px;color:#64748b;margin-bottom:6px;font-style:italic">One row per unique job posting</div>
+          <table style="width:100%;font-size:9px;border-collapse:collapse">
+            <tr><td style="color:#fcd34d;padding:2px 0;white-space:nowrap">id</td><td style="color:#64748b;padding:2px 4px">uuid PK</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">title</td><td style="color:#64748b;padding:2px 4px">text</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">company</td><td style="color:#64748b;padding:2px 4px">text</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">location</td><td style="color:#64748b;padding:2px 4px">text</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">province</td><td style="color:#64748b;padding:2px 4px">text</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">source</td><td style="color:#64748b;padding:2px 4px">linkedin|indeed|…</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">url</td><td style="color:#64748b;padding:2px 4px">text</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">description</td><td style="color:#64748b;padding:2px 4px">text</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">industry</td><td style="color:#64748b;padding:2px 4px">hospitality|tech|…</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">posted_at</td><td style="color:#64748b;padding:2px 4px">timestamptz</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">found_at</td><td style="color:#64748b;padding:2px 4px">timestamptz</td></tr>
+            <tr><td style="color:#93c5fd;padding:2px 0">external_id</td><td style="color:#64748b;padding:2px 4px">text UNIQUE</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- applications table -->
+      <div style="background:#0f172a;border:1px solid #7c3aed;border-radius:8px;overflow:hidden">
+        <div style="background:#1e1040;padding:8px 12px;font-size:11px;font-weight:700;color:#c4b5fd">applications</div>
+        <div style="padding:10px 12px">
+          <div style="font-size:9px;color:#64748b;margin-bottom:6px;font-style:italic">Your pipeline — one row per job you act on</div>
+          <table style="width:100%;font-size:9px;border-collapse:collapse">
+            <tr><td style="color:#fcd34d;padding:2px 0;white-space:nowrap">id</td><td style="color:#64748b;padding:2px 4px">uuid PK</td></tr>
+            <tr><td style="color:#c4b5fd;padding:2px 0">job_id</td><td style="color:#64748b;padding:2px 4px">→ jobs.id</td></tr>
+            <tr><td style="color:#c4b5fd;padding:2px 0">status</td><td style="color:#64748b;padding:2px 4px">new|tailoring|review<br>|applied|interview<br>|rejected</td></tr>
+            <tr><td style="color:#c4b5fd;padding:2px 0">applied_at</td><td style="color:#64748b;padding:2px 4px">timestamptz</td></tr>
+            <tr><td style="color:#c4b5fd;padding:2px 0">notes</td><td style="color:#64748b;padding:2px 4px">text</td></tr>
+            <tr><td style="color:#c4b5fd;padding:2px 0">created_at</td><td style="color:#64748b;padding:2px 4px">timestamptz</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- cv_versions table -->
+      <div style="background:#0f172a;border:1px solid #d97706;border-radius:8px;overflow:hidden">
+        <div style="background:#1c1000;padding:8px 12px;font-size:11px;font-weight:700;color:#fcd34d">cv_versions</div>
+        <div style="padding:10px 12px">
+          <div style="font-size:9px;color:#64748b;margin-bottom:6px;font-style:italic">Claude-tailored CV per job</div>
+          <table style="width:100%;font-size:9px;border-collapse:collapse">
+            <tr><td style="color:#fcd34d;padding:2px 0;white-space:nowrap">id</td><td style="color:#64748b;padding:2px 4px">uuid PK</td></tr>
+            <tr><td style="color:#fcd34d;padding:2px 0">job_id</td><td style="color:#64748b;padding:2px 4px">→ jobs.id</td></tr>
+            <tr><td style="color:#fcd34d;padding:2px 0">content_md</td><td style="color:#64748b;padding:2px 4px">text (markdown)</td></tr>
+            <tr><td style="color:#fcd34d;padding:2px 0">pdf_url</td><td style="color:#64748b;padding:2px 4px">Supabase Storage</td></tr>
+            <tr><td style="color:#fcd34d;padding:2px 0">ats_score</td><td style="color:#64748b;padding:2px 4px">int (0–100)</td></tr>
+            <tr><td style="color:#fcd34d;padding:2px 0">keywords_matched</td><td style="color:#64748b;padding:2px 4px">text[]</td></tr>
+            <tr><td style="color:#fcd34d;padding:2px 0">created_at</td><td style="color:#64748b;padding:2px 4px">timestamptz</td></tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CV Tailoring Flow -->
+  <div style="background:#0f172a;border-radius:10px;padding:16px">
+    <div style="color:#fcd34d;font-weight:600;font-size:12px;margin-bottom:14px">🤖 CV Tailoring Flow — what happens when you click "Tailor CV"</div>
+
+    <div style="display:flex;align-items:flex-start;gap:0;position:relative">
+
+      <!-- Step 1 -->
+      <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+        <div style="background:#1e3a5f;border:2px solid #1d4ed8;border-radius:8px;padding:10px;width:100%;box-sizing:border-box">
+          <div style="color:#93c5fd;font-weight:700;font-size:10px;margin-bottom:4px">1. You click "Tailor CV"</div>
+          <div style="color:#64748b;font-size:9px;line-height:1.5">On any job in the dashboard. The job description is already in Supabase.</div>
+        </div>
+        <div style="color:#334155;font-size:16px;margin:4px 0">↓</div>
+      </div>
+
+      <div style="color:#334155;font-size:20px;padding:12px 6px 0">→</div>
+
+      <!-- Step 2 -->
+      <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+        <div style="background:#1c1000;border:2px solid #d97706;border-radius:8px;padding:10px;width:100%;box-sizing:border-box">
+          <div style="color:#fcd34d;font-weight:700;font-size:10px;margin-bottom:4px">2. Claude API called</div>
+          <div style="color:#64748b;font-size:9px;line-height:1.5">Receives your base CV + job description. Prompt instructs: match keywords, reorder bullet points, highlight relevant experience, keep it honest.</div>
+        </div>
+        <div style="color:#334155;font-size:16px;margin:4px 0">↓</div>
+      </div>
+
+      <div style="color:#334155;font-size:20px;padding:12px 6px 0">→</div>
+
+      <!-- Step 3 -->
+      <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+        <div style="background:#0c2a1e;border:2px solid #16a34a;border-radius:8px;padding:10px;width:100%;box-sizing:border-box">
+          <div style="color:#86efac;font-weight:700;font-size:10px;margin-bottom:4px">3. ATS score calculated</div>
+          <div style="color:#64748b;font-size:9px;line-height:1.5">Claude also returns matched keywords and an ATS alignment score (0–100). Both saved to cv_versions.</div>
+        </div>
+        <div style="color:#334155;font-size:16px;margin:4px 0">↓</div>
+      </div>
+
+      <div style="color:#334155;font-size:20px;padding:12px 6px 0">→</div>
+
+      <!-- Step 4 -->
+      <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+        <div style="background:#2d1b69;border:2px solid #7c3aed;border-radius:8px;padding:10px;width:100%;box-sizing:border-box">
+          <div style="color:#c4b5fd;font-weight:700;font-size:10px;margin-bottom:4px">4. PDF generated</div>
+          <div style="color:#64748b;font-size:9px;line-height:1.5">Tailored CV rendered to PDF via react-pdf. Stored in Supabase Storage. You see a preview + download link.</div>
+        </div>
+        <div style="color:#334155;font-size:16px;margin:4px 0">↓</div>
+      </div>
+
+      <div style="color:#334155;font-size:20px;padding:12px 6px 0">→</div>
+
+      <!-- Step 5 -->
+      <div style="display:flex;flex-direction:column;align-items:center;flex:1">
+        <div style="background:#0c1a0c;border:2px solid #16a34a;border-radius:8px;padding:10px;width:100%;box-sizing:border-box">
+          <div style="color:#86efac;font-weight:700;font-size:10px;margin-bottom:4px">5. You apply</div>
+          <div style="color:#64748b;font-size:9px;line-height:1.5">Review CV draft, then click "Apply Now →" which opens the job URL. Mark as Applied — date + company logged instantly.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Hospitality CV note -->
+    <div style="margin-top:14px;background:#1c1000;border:1px solid #92400e;border-radius:6px;padding:10px 14px">
+      <div style="color:#fcd34d;font-size:10px;font-weight:600;margin-bottom:4px">🏨 Hospitality-specific CV tailoring</div>
+      <div style="color:#92400e;font-size:10px;line-height:1.6">When the job is tagged <strong style="color:#fcd34d">Hospitality</strong>, Claude's prompt explicitly leads with your Oracle OPERA Cloud migrations, Marriott / Barcelo / Mandarin Oriental experience, and zero-downtime go-lives. For non-hospitality roles, it leads with your PMP, PMO governance, and infrastructure credentials instead.</div>
+    </div>
+  </div>
+
+</div>
