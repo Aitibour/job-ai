@@ -19,8 +19,9 @@ export async function POST(req: NextRequest) {
   if (error || !cvVersion) return NextResponse.json({ error: 'CV version not found' }, { status: 404 })
 
   // Generate PDF buffer
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const buffer = await renderToBuffer(
-    createElement(CvDocument, { cvContent: cvVersion.cv_content })
+    createElement(CvDocument, { cvContent: cvVersion.cv_content }) as any
   )
 
   // Upload to Supabase Storage
