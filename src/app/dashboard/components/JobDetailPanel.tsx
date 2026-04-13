@@ -135,7 +135,7 @@ export function JobDetailPanel({ itemId, stage, items, onStatusChange }: Props) 
           <div className="flex gap-2 shrink-0">
             {!cvVersion && (
               <button
-                onClick={handleTailorCv}
+                onClick={() => handleTailorCv()}
                 disabled={isTailoring}
                 className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white text-sm rounded-md"
               >
